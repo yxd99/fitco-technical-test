@@ -54,7 +54,7 @@ export class VideosService {
     let privacyQuery = '';
     const privacy = !isAuthenticated
       ? TYPE_PRIVACY.PUBLIC
-      : query.privacy ?? '';
+      : (query.privacy ?? '');
 
     if (privacy === TYPE_PRIVACY.PRIVATE && !isAuthenticated) {
       throw new UnauthorizedException(
