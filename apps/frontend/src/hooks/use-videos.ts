@@ -1,10 +1,13 @@
 'use client';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
+import { uploadVideoAction } from '@app/actions/videos.action';
 import { type GetVideos } from '@app/interfaces/video.interface';
 import {
   getInfiniteVideosQuery,
+  getVideoQuery,
 } from '@app/queries/video-query';
 
 export const useVideos = (params: GetVideos) => {
@@ -25,4 +28,21 @@ export const useVideos = (params: GetVideos) => {
     videos,
     handleChangeInView,
   };
+};
+
+export const useVideo = (id: string) =>
+  useQuery({
+    ...getVideoQuery(id),
+  });
+
+export const useUploadVideo = () => {
+  return useMutation({
+    mutationFn: uploadVideoAction,
+    onSuccess: () => {
+      toast.success('Video uploaded successfully');
+    },
+    onError: () => {
+      toast.error('Error uploading video');
+    },
+  });
 };
