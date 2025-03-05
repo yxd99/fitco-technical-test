@@ -1,20 +1,21 @@
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+
 import { swagger } from '@common/config';
 import { envs } from '@common/config/envs';
 import { config } from '@common/constants';
-import { Logger, ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+
+import { AppModule } from './app.module';
 import helmet from 'helmet';
 import * as hpp from 'hpp';
 
-import { AppModule } from './app.module';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: true,
+    cors: true
   });
 
-  app.use(helmet());
-  app.use(hpp());
+  app.use(helmet())
+  app.use(hpp())
 
   app.useGlobalPipes(
     new ValidationPipe({
