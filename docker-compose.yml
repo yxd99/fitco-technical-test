@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  backend:
+    extends:
+      file: ./apps/backend/docker-compose.yml
+      service: backend
+    env_file:
+      - ./apps/backend/.env
+
+  frontend:
+    extends:
+      file: ./apps/frontend/docker-compose.yml
+      service: frontend
+    env_file:
+      - ./apps/frontend/.env

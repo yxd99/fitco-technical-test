@@ -1,8 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Video Managment Frontend
+This project consists to manage videos, users, comments, likes, etc. is a cloudinary as SaaS to be able to save videos and store in an optimal way the videos. The project is made in NextJS.
 
 ## Getting Started
 
-First, run the development server:
+First you need to install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+After you need to create a `.env.local` or `.env` file in the root directory, you can copy the `.example.env` file and fill in the values:
+
+```bash
+NEXTAUTH_SECRET=
+NEXT_PUBLIC_API_URL=
+NEXTAUTH_URL=
+```
+
+Now you can run the development server:
 
 ```bash
 npm run dev

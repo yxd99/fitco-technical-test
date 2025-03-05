@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
 } from '@app/components/ui/sidebar';
 import { Paths } from '@app/lib/constants/paths';
+import { useAuthStore } from '@app/lib/store';
 
 const items = [
   {
@@ -28,6 +29,8 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const { logout } = useAuthStore();
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -53,7 +56,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href={Paths.HOME}>
+              <Link href={Paths.HOME} onClick={logout}>
                 <LogOut />
                 <span>Logout</span>
               </Link>
