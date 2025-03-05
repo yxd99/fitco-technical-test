@@ -9,3 +9,11 @@ export const getInfiniteVideosQuery = (params: GetVideos) => ({
     return videos;
   },
 });
+
+export const getVideoQuery = (id: string) => ({
+  queryKey: ['video', id],
+  queryFn: async () => {
+    const video = await getVideoAction(id);
+    return video;
+  },
+});
