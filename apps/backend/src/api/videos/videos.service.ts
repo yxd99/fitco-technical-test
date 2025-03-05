@@ -10,10 +10,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CloudinaryService } from '@shared/cloudinary/cloudinary.service';
+import { ServiceResponse } from '@shared/types';
 
 import { TYPE_PRIVACY } from './constants';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { QueryParamsDto } from './dto/query-params.dto';
+import { UpdateVideoDto } from './dto/update-video.dto';
 import { Video } from './entities/video.entity';
 
 @Injectable()
@@ -52,7 +54,7 @@ export class VideosService {
     let privacyQuery = '';
     const privacy = !isAuthenticated
       ? TYPE_PRIVACY.PUBLIC
-      : (query.privacy ?? '');
+      : query.privacy ?? '';
 
     if (privacy === TYPE_PRIVACY.PRIVATE && !isAuthenticated) {
       throw new UnauthorizedException(
@@ -101,5 +103,55 @@ export class VideosService {
       throw new NotFoundException('Video not found');
     }
     return video;
+  }
+
+  async update(
+    id: number,
+    updateVideoDto: UpdateVideoDto,
+  ): Promise<ServiceResponse> {
+    try {
+      const { video: videoFile, ...infoVideo } = updateVideoDto;
+      const video = await this.findOne(id);
+
+      if (videoFile) {
+        await this.cloudinaryService.removeFile(video.publicId);
+        const { secure_url: url, public_id: publicId } =
+          await this.cloudinaryService.uploadFile(videoFile);
+        video.url = url;
+        video.publicId = publicId;
+      }
+
+      await this.videoRepository.save({ ...video, ...infoVideo });
+      return {
+        message: 'Video has been update',
+      };
+    } catch (error) {
+      this.logger.error(`Error updating video: ${error.message}`);
+      throw error;
+    }
+  }
+
+  async remove(id: number, userId: number): Promise<ServiceResponse> {
+    try {
+      const videoOrError = await this.findOne(id);
+
+      const video = videoOrError;
+
+      if (video.user.id !== userId) {
+        throw new HttpException(
+          'You are not the owner of this video',
+          HttpStatus.FORBIDDEN,
+        );
+      }
+
+      await this.cloudinaryService.removeFile(video.publicId);
+      await this.videoRepository.softRemove(video);
+      return {
+        message: 'video has been deleted',
+      };
+    } catch (error) {
+      this.logger.error(`Error removing video: ${error.message}`);
+      throw error;
+    }
   }
 }

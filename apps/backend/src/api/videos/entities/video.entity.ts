@@ -1,5 +1,3 @@
-import { User } from '@api/profile/entities/user.entity';
-import { MAX_LENGTH_VIDEO_TITLE, TYPE_PRIVACY } from '@api/videos/constants';
 import {
   Column,
   CreateDateColumn,
@@ -7,8 +5,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { Comment } from '@api/comments/entities/comment.entity';
+import { User } from '@api/profile/entities/user.entity';
+import { MAX_LENGTH_VIDEO_TITLE, TYPE_PRIVACY } from '@api/videos/constants';
 
 @Entity('videos')
 export class Video {
@@ -67,4 +70,7 @@ export class Video {
 
   @DeleteDateColumn({ select: false })
   removedAt: Date;
+
+  @OneToMany(() => Comment, (comment) => comment.video)
+  comments: Comment[];
 }

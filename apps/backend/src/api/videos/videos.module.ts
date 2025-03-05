@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { CloudinaryModule } from '@shared/cloudinary/cloudinary.module';
 
 import { Video } from './entities/video.entity';
