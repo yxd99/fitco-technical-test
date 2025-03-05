@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import { Comment } from '@api/comments/entities/comment.entity';
+import { Target } from '@api/likes/entities/target.entity';
 import { User } from '@api/profile/entities/user.entity';
 import { MAX_LENGTH_VIDEO_TITLE, TYPE_PRIVACY } from '@api/videos/constants';
 
@@ -73,4 +74,7 @@ export class Video {
 
   @OneToMany(() => Comment, (comment) => comment.video)
   comments: Comment[];
+
+  @OneToMany(() => Target, (target) => target.video)
+  target: Target[];
 }

@@ -1,6 +1,7 @@
 import { TYPE_PRIVACY } from '@api/videos/constants';
 import { Video } from '@api/videos/entities/video.entity';
 
+import { targetMock } from './target.mock';
 import { userMock } from './user.mock';
 
 export const videoMock: Video = {
@@ -15,4 +16,5 @@ export const videoMock: Video = {
   title: '',
   url: '',
   user: userMock,
+  target: [targetMock],
 };

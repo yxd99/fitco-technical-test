@@ -5,6 +5,7 @@ import { DataSource } from 'typeorm';
 
 import { AuthModule } from '@api/auth/auth.module';
 import { CommentsModule } from '@api/comments/comments.module';
+import { LikesModule } from '@api/likes/likes.module';
 import { UsersModule } from '@api/profile/profile.module';
 import { VideosModule } from '@api/videos/videos.module';
 import { typeorm } from '@common/config';
@@ -21,6 +22,7 @@ import { CloudinaryModule } from '@shared/cloudinary/cloudinary.module';
     UsersModule,
     VideosModule,
     CloudinaryModule,
+    LikesModule,
     CommentsModule,
     ErrorHandlerModule,
   ],
