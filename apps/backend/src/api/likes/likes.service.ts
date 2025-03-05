@@ -71,4 +71,28 @@ export class LikesService {
 
     return this.likeRepository.save(newLike);
   }
+
+  async getMostLikedVideos(): Promise<Like[]> {
+    return this.likeRepository
+      .createQueryBuilder('likes')
+      .select(['COUNT(video.id) AS totalLikes', 'video'])
+      .innerJoin('likes.target', 'target')
+      .innerJoin('target.video', 'video')
+      .where('likes.status = :status', { status: 1 })
+      .groupBy('video.id')
+      .orderBy('totalLikes', 'DESC')
+      .getRawMany();
+  }
+
+  async getMostLikedComments(): Promise<Like[]> {
+    return this.likeRepository
+      .createQueryBuilder('likes')
+      .select(['COUNT(comment.id) AS totalLikes', 'comment'])
+      .innerJoin('likes.target', 'target')
+      .innerJoin('target.comment', 'comment')
+      .where('likes.status = :status', { status: 1 })
+      .groupBy('comment.id')
+      .orderBy('totalLikes', 'DESC')
+      .getRawMany();
+  }
 }
