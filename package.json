@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "fitco-technical-test",
   "private": true,
   "scripts": {
     "build": "turbo run build",
