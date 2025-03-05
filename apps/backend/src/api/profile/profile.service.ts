@@ -7,6 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 
+import { VideosService } from '@api/videos/videos.service';
 import { bcrypt } from '@common/utils';
 import { Nullable, ServiceResponse } from '@shared/types';
 
@@ -22,6 +23,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly videosService: VideosService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<ServiceResponse> {
@@ -95,6 +97,7 @@ export class UsersService {
         relations: ['videos'],
         where: { id },
       });
+
       await this.userRepository.softDelete(id);
       return {
         message: `user ${user.username} has been removed successfully`,

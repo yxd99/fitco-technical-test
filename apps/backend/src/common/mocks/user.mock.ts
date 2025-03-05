@@ -7,4 +7,5 @@ export const userMock: User = {
   password: '',
   removedAt: new Date(),
   username: '',
+  videos: [],
 };
