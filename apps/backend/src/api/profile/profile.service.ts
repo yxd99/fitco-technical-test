@@ -98,6 +98,12 @@ export class UsersService {
         where: { id },
       });
 
+      const { videos } = user;
+
+      videos.forEach(async (video) => {
+        await this.videosService.remove(video.id, id);
+      });
+
       await this.userRepository.softDelete(id);
       return {
         message: `user ${user.username} has been removed successfully`,

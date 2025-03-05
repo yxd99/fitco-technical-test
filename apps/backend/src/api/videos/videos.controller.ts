@@ -3,7 +3,9 @@ import {
   Get,
   Post,
   Body,
+  Patch,
   Param,
+  Delete,
   UseInterceptors,
   ParseFilePipe,
   FileTypeValidator,
@@ -31,6 +33,7 @@ import { ServiceResponse } from '@shared/types';
 import { MAX_SIZE_VIDEO, TYPE_PRIVACY } from './constants';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { QueryParamsDto } from './dto/query-params.dto';
+import { UpdateVideoDto } from './dto/update-video.dto';
 import { Video } from './entities/video.entity';
 import { VideosService } from './videos.service';
 
@@ -105,5 +108,38 @@ export class VideosController {
     }
 
     return video;
+  }
+
+  @Patch(':id')
+  @UseInterceptors(FileInterceptor('video'))
+  @ApiUnauthorizedResponse(videosSchema.common.unauhtorizedSchema)
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateVideoDto: UpdateVideoDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        fileIsRequired: false,
+        validators: [
+          new FileTypeValidator({ fileType: 'video/*' }),
+          new MaxFileSizeValidator({ maxSize: MAX_SIZE_VIDEO }),
+        ],
+      }),
+    )
+    video: Express.Multer.File,
+  ): Promise<ServiceResponse> {
+    const updateVideo = { ...updateVideoDto, video };
+    await this.videosService.update(id, updateVideo);
+    return {
+      message: 'video has been updated',
+    };
+  }
+
+  @Delete(':id')
+  @ApiUnauthorizedResponse(videosSchema.common.unauhtorizedSchema)
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+    @Payload() payload: PayloadDto,
+  ): Promise<ServiceResponse> {
+    return this.videosService.remove(id, payload.userId);
   }
 }

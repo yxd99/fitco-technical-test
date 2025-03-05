@@ -4,6 +4,7 @@ import { Video } from '@api/videos/entities/video.entity';
 import { userMock } from './user.mock';
 
 export const videoMock: Video = {
+  comments: [],
   createdAt: new Date(),
   credits: '',
   description: '',

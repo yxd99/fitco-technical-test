@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 
 import { AuthModule } from '@api/auth/auth.module';
+import { CommentsModule } from '@api/comments/comments.module';
 import { UsersModule } from '@api/profile/profile.module';
 import { VideosModule } from '@api/videos/videos.module';
 import { typeorm } from '@common/config';
@@ -20,6 +21,7 @@ import { CloudinaryModule } from '@shared/cloudinary/cloudinary.module';
     UsersModule,
     VideosModule,
     CloudinaryModule,
+    CommentsModule,
     ErrorHandlerModule,
   ],
   providers: [Logger],
