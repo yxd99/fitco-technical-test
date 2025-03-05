@@ -1,5 +1,6 @@
 import { Comment } from '@api/comments/entities/comment.entity';
 
+import { targetMock } from './target.mock';
 import { userMock } from './user.mock';
 import { videoMock } from './video.mock';
 
@@ -11,4 +12,5 @@ export const commentMock: Comment = {
   updatedAt: new Date(),
   user: userMock,
   video: videoMock,
+  target: [targetMock],
 };

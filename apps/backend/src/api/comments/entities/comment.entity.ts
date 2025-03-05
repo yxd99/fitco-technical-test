@@ -5,11 +5,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { MAX_LENGTH_COMMENT } from '@api/comments/constants';
+import { Target } from '@api/likes/entities/target.entity';
 import { User } from '@api/profile/entities/user.entity';
 import { Video } from '@api/videos/entities/video.entity';
 
@@ -44,4 +46,7 @@ export class Comment {
 
   @DeleteDateColumn({ select: false })
   deletedAt: Date;
+
+  @OneToMany(() => Target, (target) => target.video)
+  target: Target[];
 }
