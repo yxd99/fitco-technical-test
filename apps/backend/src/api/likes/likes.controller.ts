@@ -1,4 +1,4 @@
-import { Controller, Post, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { PayloadDto } from '@api/auth/dto/payload.dto';
@@ -31,5 +31,15 @@ export class LikesController {
       comentarioId,
       TARGET.COMMENT,
     );
+  }
+
+  @Get('/videos/most-liked')
+  async getMostLikedVideos() {
+    return this.likesService.getMostLikedVideos();
+  }
+
+  @Get('/comentarios/most-liked')
+  async getMostLikedComentarios() {
+    return this.likesService.getMostLikedComments();
   }
 }
